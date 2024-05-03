@@ -1,9 +1,9 @@
 import { Process, Processor } from '@nestjs/bull'
-import { Job } from 'bull'
-import { AccountJobData, AccountService } from '@bacc/core'
+import type { Job } from 'bull'
+import type { AccountJobData, AccountService } from '@bacc/core'
 import { Logger } from '@nestjs/common'
 import { TX_HASHES_LIMIT, TX_HASHES_QUEUE } from '../constants'
-import { CardanoService } from '../services'
+import type { CardanoService } from '../services'
 
 @Processor(TX_HASHES_QUEUE)
 export class HashesProcessor {

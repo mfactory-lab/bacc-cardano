@@ -1,4 +1,4 @@
-import { ITransaction } from './transaction.interface'
+import type { ITransaction } from './transaction'
 
 export type GetTransactionsJobData = {
   accountId: number

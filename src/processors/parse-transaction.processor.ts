@@ -1,11 +1,11 @@
 import { Logger } from '@nestjs/common'
 import { OnQueueFailed, Process, Processor } from '@nestjs/bull'
-import { Job } from 'bull'
-import { AccountService, TransactionService } from '@bacc/core'
-import { PriceService } from '@bacc/price-collector'
+import type { Job } from 'bull'
+import type { AccountService, TransactionService } from '@bacc/core'
+import type { PriceService } from '@bacc/price-collector'
 import { ADA_SYMBOL, CARDANO_BLOCKCHAIN, PARSE_TRANSACTION_QUEUE } from '../constants'
-import { ParseTransactionJobData } from '../types'
-import { CardanoService } from '../services'
+import type { ParseTransactionJobData } from '../types'
+import type { CardanoService } from '../services'
 
 @Processor(PARSE_TRANSACTION_QUEUE)
 export class ParseTransactionProcessor {

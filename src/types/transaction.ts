@@ -1,4 +1,4 @@
-import { CardanoToken } from '../token-list/interfaces'
+import type { CardanoToken } from '../token-list'
 
 export type IAccountTransaction = {
   tx_hash: string

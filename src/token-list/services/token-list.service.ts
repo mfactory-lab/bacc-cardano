@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectRedis } from '@liaoliaots/nestjs-redis'
-import { Redis } from 'ioredis'
+import type { Redis } from 'ioredis'
 import axios from 'axios'
-import { CardanoToken } from '../interfaces'
+import type { CardanoToken } from '../types'
 
 const KEY_PREFIX = 'cardano-token-list:'
 

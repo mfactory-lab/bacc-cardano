@@ -1,10 +1,11 @@
 import { InjectQueue, Process, Processor } from '@nestjs/bull'
-import { Job, Queue } from 'bull'
-import { AccountService, DEFAULT_JOB_OPTS } from '@bacc/core'
+import type { Job, Queue } from 'bull'
+import type { AccountService } from '@bacc/core'
+import { DEFAULT_JOB_OPTS } from '@bacc/core'
 import { Logger } from '@nestjs/common'
 import { CARDANO_BLOCKCHAIN, GET_TRANSACTION_QUEUE, PARSE_TRANSACTION_QUEUE } from '../constants'
-import { CardanoService } from '../services'
-import { GetTransactionsJobData, ParseTransactionJobData } from '../types'
+import type { CardanoService } from '../services'
+import type { GetTransactionsJobData, ParseTransactionJobData } from '../types'
 
 @Processor(GET_TRANSACTION_QUEUE)
 export class GetTransactionsProcessor {

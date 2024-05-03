@@ -11,7 +11,7 @@ module.exports = antfu({
     'antfu/consistent-list-newline': 'off',
     'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'ts/consistent-type-definitions': ['error', 'type'],
-    'ts/consistent-type-imports': 'off',
+    // 'ts/consistent-type-imports': 'off',
     'curly': ['error', 'all'],
     'node/prefer-global/process': 'off',
     'no-console': 'off',
