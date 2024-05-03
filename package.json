@@ -14,7 +14,6 @@
     "prerelease": "pnpm run build",
     "release": "release-it",
     "lint": "eslint . --fix",
-    "preinstall": "npx only-allow pnpm",
     "postinstall": "husky"
   },
   "peerDependencies": {
