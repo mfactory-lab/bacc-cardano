@@ -1,1 +1,3 @@
-Cardano module for BACC
+# BACC Cardano
+
+Cardano module implementation for bacc.one

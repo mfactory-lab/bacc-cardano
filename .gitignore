@@ -6,9 +6,6 @@ public/build
 .next
 **/*.tsbuildinfo
 
-## Monorepo
-.turbo
-
 # Environment variables
 .env
 .env.local
@@ -49,5 +46,3 @@ lerna-debug.log*
 # Misc
 .cache
 tsconfig.tsbuildinfo
-
-**/uploads

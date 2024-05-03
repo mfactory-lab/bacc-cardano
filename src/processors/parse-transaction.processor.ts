@@ -4,7 +4,7 @@ import { Job } from 'bull'
 import { AccountService, TransactionService } from '@bacc/core'
 import { PriceService } from '@bacc/price-collector'
 import { ADA_SYMBOL, CARDANO_BLOCKCHAIN, PARSE_TRANSACTION_QUEUE } from '../constants'
-import { ParseTransactionJobData } from '../interfaces'
+import { ParseTransactionJobData } from '../types'
 import { CardanoService } from '../services'
 
 @Processor(PARSE_TRANSACTION_QUEUE)

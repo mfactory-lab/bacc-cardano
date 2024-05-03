@@ -8,10 +8,9 @@ import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
 import { OnEvent } from '@nestjs/event-emitter'
 import { ADA_SYMBOL, CARDANO_BLOCKCHAIN, GET_TRANSACTION_QUEUE, LOGO_BASE_URL, MULTI_ACCOUNT, TX_HASHES_LIMIT, TX_HASHES_QUEUE, TX_LIMIT } from '../constants'
-import { Asset, GetTransactionsJobData, IAccountTransaction, ITransaction, ParsedTxAsset, StakeWithdrawal, TransactionType, Transfer, UTxO } from '../interfaces'
+import { Asset, GetTransactionsJobData, IAccountTransaction, ITransaction, ParsedTxAsset, StakeWithdrawal, TransactionType, Transfer, UTxO } from '../types'
+import { TokenListService, CardanoToken } from '../token-list'
 import { isValidUtf8 } from '../utils'
-import { TokenListService } from '../token-list/services'
-import { CardanoToken } from '../token-list/interfaces'
 
 type ParseUtxoProps = {
   assets: Record<string, ParsedTxAsset>
