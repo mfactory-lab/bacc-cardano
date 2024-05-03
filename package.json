@@ -1,0 +1,46 @@
+{
+  "name": "@bacc/cardano",
+  "version": "0.0.1",
+  "description": "Cardano module for BACC",
+  "packageManager": "pnpm@9.0.5",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "dist/index.js",
+  "files": ["dist"],
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc",
+    "prerelease": "pnpm run build",
+    "release": "release-it",
+    "lint": "eslint . --fix",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "husky"
+  },
+  "peerDependencies": {
+    "@nestjs/axios": "^3.0.2",
+    "@nestjs/bull": "^10.1.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.0",
+    "@nestjs/event-emitter": "^2.0.4",
+    "bull": "^4.12.2"
+  },
+  "dependencies": {
+    "@bacc/core": "0.0.1",
+    "@bacc/price-collector": "0.0.1",
+    "@emurgo/cardano-message-signing-nodejs": "^1.0.1",
+    "@emurgo/cardano-serialization-lib-nodejs": "^11.5.0",
+    "@liaoliaots/nestjs-redis": "^9.0.5",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.15.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/config-pnpm-scopes": "^19.1.0",
+    "eslint": "^9.1.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "typescript": "^5.4.5"
+  }
+}
