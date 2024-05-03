@@ -1,19 +1,26 @@
 {
   "name": "@bacc/cardano",
   "version": "0.0.1",
-  "description": "Cardano module for BACC",
   "packageManager": "pnpm@9.0.5",
-  "engines": {
-    "node": ">=18"
+  "description": "Cardano module for BACC",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfactory-lab/bacc-cardano.git"
   },
+  "keywords": [
+    "accounting",
+    "cardano",
+    "bacc"
+  ],
   "main": "dist/index.js",
-  "files": ["dist"],
+  "module": "dist/esm/index.js",
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc",
-    "prerelease": "pnpm run build",
-    "release": "release-it",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "lint": "eslint . --fix",
+    "release": "release-it",
+    "prerelease": "pnpm run build",
     "postinstall": "husky"
   },
   "peerDependencies": {
@@ -22,11 +29,12 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.0",
     "@nestjs/event-emitter": "^2.0.4",
+    "@nestjs/schedule": "^4.0.0",
     "bull": "^4.12.2"
   },
   "dependencies": {
-    "@bacc/core": "0.0.1",
-    "@bacc/price-collector": "0.0.1",
+    "@bacc/core": "^0.1.0",
+    "@bacc/price-collector": "^0.1.0",
     "@emurgo/cardano-message-signing-nodejs": "^1.0.1",
     "@emurgo/cardano-serialization-lib-nodejs": "^11.5.0",
     "@liaoliaots/nestjs-redis": "^9.0.5",
@@ -40,6 +48,7 @@
     "eslint": "^9.1.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
   "lint-staged": {
