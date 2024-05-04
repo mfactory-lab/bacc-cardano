@@ -6,7 +6,7 @@ import { BullModule } from '@nestjs/bull'
 import { BaccCoreModule } from '@bacc/core'
 import { PriceCollectorModule } from '@bacc/price-collector'
 import { CardanoService } from './services'
-import { COIOS_API_URL, GET_TRANSACTION_QUEUE, PARSE_TRANSACTION_QUEUE, TX_HASHES_QUEUE } from './constants'
+import { GET_TRANSACTION_QUEUE, KOIOS_API_URL, PARSE_TRANSACTION_QUEUE, TX_HASHES_QUEUE } from './constants'
 import { GetTransactionsProcessor, HashesProcessor, ParseTransactionProcessor } from './processors'
 import { CardanoTokenListModule } from './token-list'
 
@@ -17,7 +17,7 @@ import { CardanoTokenListModule } from './token-list'
     HttpModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (cfg: ConfigService) => ({
-        baseURL: COIOS_API_URL,
+        baseURL: KOIOS_API_URL,
         headers: {
           authorization: `Bearer ${cfg.get('KOIOS_API_TOKEN')}`,
         },

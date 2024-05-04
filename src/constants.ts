@@ -3,7 +3,7 @@ export const CARDANO_BLOCKCHAIN = 'cardano'
 export const ADA_SYMBOL = 'ADA'
 export const ADA_DECIMALS = 6
 
-export const COIOS_API_URL = 'https://api.koios.rest/api/v1'
+export const KOIOS_API_URL = 'https://api.koios.rest/api/v1'
 
 export const TX_HASHES_QUEUE = `${CARDANO_BLOCKCHAIN}_tx_hashes_queue`
 export const GET_TRANSACTION_QUEUE = `${CARDANO_BLOCKCHAIN}_get_transactions_queue`

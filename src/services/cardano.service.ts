@@ -14,34 +14,9 @@ import { TransactionType } from '../types'
 import type { CardanoToken, TokenListService } from '../token-list'
 import { isValidUtf8 } from '../utils'
 
-type ParseUtxoProps = {
-  assets: Record<string, ParsedTxAsset>
-  accounts: Record<string, Record<string, number>>
-  utxo: UTxO
-}
-
-type GetBalanceChangesProps = {
-  accountsAfter: Record<string, Record<string, number>>
-  accountsBefore: Record<string, Record<string, number>>
-}
-
-type GetTransfersProps = {
-  assets: Set<string>
-  balanceChanges: Record<string, Record<string, number>>
-  fee: number
-  deposit: number
-  assetsMinted: Asset[] | null
-}
-
-type HandleWithdrawalsProps = {
-  withdrawals: StakeWithdrawal[]
-  balanceChanges: Record<string, Record<string, number>>
-  transfers: Transfer[]
-  utxos: UTxO[]
-  deposit: number
-  fee: number
-}
-
+/**
+ * Service for interacting with the Cardano blockchain.
+ */
 @Injectable()
 export class CardanoService {
   private readonly logger = new Logger(this.constructor.name)
@@ -53,6 +28,15 @@ export class CardanoService {
     @InjectQueue(GET_TRANSACTION_QUEUE) private getTransactionsQueue: Queue<GetTransactionsJobData>,
   ) {}
 
+  /**
+   * Checks the signature of a user.
+   *
+   * @param props Properties for checking the signature.
+   * @param props.message Message to sign.
+   * @param props.signature Signature to verify.
+   * @param props.publicKey Public key of the user.
+   * @returns True if the signature is verified, otherwise UnauthorizedException is thrown.
+   */
   async checkSignature({ message, signature: combinedSignature, publicKey: publicKeyDto }: SignInDto) {
     const [signature, signatureKey] = combinedSignature.split(':')
     if (!signature || !signatureKey) {
@@ -102,6 +86,15 @@ export class CardanoService {
     return true
   }
 
+  /**
+   * Retrieves transactions for a given account address.
+   *
+   * @param {object} opts The object containing the options.
+   * @param {string} opts.address The account address.
+   * @param {number} [opts.afterBlock] The block height after which to retrieve transactions.
+   * @param {number} [opts.offset] The offset for pagination.
+   * @returns {Promise<IAccountTransaction[]>} A list of account transactions.
+   */
   async getAccountTransactions({ address, afterBlock = 0, offset = 0 }: { address: string, afterBlock?: number, offset?: number }): Promise<IAccountTransaction[]> {
     const { data } = await this.httpService.axiosRef.post(
       `address_txs?offset=${offset}&limit=${TX_HASHES_LIMIT}&order=block_height.asc`,
@@ -110,21 +103,45 @@ export class CardanoService {
     return data
   }
 
+  /**
+   * Retrieves transaction information for the given transaction hashes.
+   *
+   * @param txHashes List of transaction hashes.
+   * @returns Information about the transactions.
+   */
   async getTransactionsInfo(txHashes: string[]): Promise<ITransaction[]> {
     const { data } = await this.httpService.axiosRef.post('tx_info', { _tx_hashes: txHashes })
     return data
   }
 
+  /**
+   * Retrieves UTXOs (Unspent Transaction Outputs) for the given transaction hashes.
+   *
+   * @param txHashes List of transaction hashes.
+   * @returns UTXO data.
+   */
   async getTransactionsUtxos(txHashes: string[]): Promise<any> {
     const { data } = await this.httpService.axiosRef.post('tx_utxos', { _tx_hashes: txHashes })
     return data
   }
 
+  /**
+   * Retrieves metadata for the given transaction hashes.
+   *
+   * @param txHashes List of transaction hashes.
+   * @returns Metadata associated with the transactions.
+   */
   async getTransactionsMetadata(txHashes: string[]): Promise<any> {
     const { data } = await this.httpService.axiosRef.post('tx_metadata', { _tx_hashes: txHashes })
     return data
   }
 
+  /**
+   * Parses a transaction and extracts relevant data.
+   *
+   * @param tx The transaction to parse.
+   * @returns Parsed transaction data.
+   */
   async parseTx(tx: ITransaction) {
     const assetsAll: Record<string, ParsedTxAsset> = {}
     const accBalancesBefore: Record<string, Record<string, number>> = {}
@@ -192,6 +209,14 @@ export class CardanoService {
     }
   }
 
+  /**
+   * Parses a UTXO (Unspent Transaction Output) and updates account balances and asset information.
+   *
+   * @param props Properties for parsing the UTXO.
+   * @param props.assets All parsed assets.
+   * @param props.accounts Account balances before parsing the UTXO.
+   * @param props.utxo The UTXO to parse.
+   */
   parseUtxo({ assets, accounts, utxo }: ParseUtxoProps) {
     const addr = utxo.payment_addr.bech32
     if (!accounts[addr]) {
@@ -222,6 +247,14 @@ export class CardanoService {
     }
   }
 
+  /**
+   * Computes balance changes for accounts based on their balances before and after a transaction.
+   *
+   * @param props Properties for computing balance changes.
+   * @param props.accountsAfter Account balances after the transaction.
+   * @param props.accountsBefore Account balances before the transaction.
+   * @returns Balance changes and affected assets.
+   */
   getBalanceChanges({ accountsAfter, accountsBefore }: GetBalanceChangesProps) {
     const balanceChanges: Record<string, Record<string, number>> = {}
     const assets: Set<string> = new Set()
@@ -255,6 +288,17 @@ export class CardanoService {
     }
   }
 
+  /**
+   * Computes transfers based on balance changes, fees, and other transaction details.
+   *
+   * @param props Properties for computing transfers.
+   * @param props.assets Set of assets involved in the transfers.
+   * @param props.balanceChanges Balance changes for accounts.
+   * @param props.fee Transaction fee.
+   * @param props.deposit Transaction deposit.
+   * @param props.assetsMinted Assets minted in the transaction.
+   * @returns List of transfers.
+   */
   async getTransfers({ assets, balanceChanges, fee, deposit, assetsMinted }: GetTransfersProps): Promise<Transfer[]> {
     const transfers = []
     const accounts = Object.keys(balanceChanges)
@@ -407,6 +451,17 @@ export class CardanoService {
     return transfers
   }
 
+  /**
+   * Handles stake withdrawals in the transaction, updating transfers and balance changes accordingly.
+   *
+   * @param props Props for handling stake withdrawals.
+   * @param props.withdrawals Stake withdrawals.
+   * @param props.balanceChanges Balance changes for accounts.
+   * @param props.transfers List of transfers.
+   * @param props.utxos List of UTXOs in the transaction.
+   * @param props.deposit Transaction deposit.
+   * @param props.fee Transaction fee.
+   */
   handleWithdrawals({ transfers, utxos, withdrawals, balanceChanges, fee, deposit }: HandleWithdrawalsProps) {
     const accs = Object.keys(balanceChanges).filter(acc => !!balanceChanges[acc][ADA_SYMBOL])
     const receivers: string[] = []
@@ -463,7 +518,10 @@ export class CardanoService {
   }
 
   /**
-   * Asset info from koios
+   * Retrieves data for the specified assets from Koios.
+   *
+   * @param assets List of assets to retrieve data for.
+   * @returns Asset data.
    */
   async getAssetsData(assets: { policyId: string, name: string }[]): Promise<any> {
     const { data } = await this.httpService.axiosRef.post(
@@ -474,8 +532,12 @@ export class CardanoService {
   }
 
   /**
-   * TODO: need improvements - some names are converted incorrectly
+   * Retrieves the asset name from its hexadecimal representation.
    * upd: koios return the same name (but contains additional data)
+   * TODO: need improvements - some names are converted incorrectly
+   *
+   * @param hexName The hexadecimal representation of the asset name.
+   * @returns The asset name.
    */
   getAssetNameFromHex(hexName: string): string {
     try {
@@ -487,6 +549,10 @@ export class CardanoService {
     }
   }
 
+  /**
+   * Syncs an account with the blockchain upon receiving an account sync event.
+   * @param payload Data associated with the account sync event.
+   */
   @OnEvent(ACCOUNT_SYNC_EVENT)
   async syncAccount(payload: AccountSyncEventData) {
     if (payload.blockchain === CARDANO_BLOCKCHAIN) {
@@ -494,10 +560,18 @@ export class CardanoService {
     }
   }
 
+  /**
+   * Adds an account job to the hashes queue for processing.
+   * @param job The account job data to add to the queue.
+   */
   async addAccountJob(job: AccountJobData) {
     await this.hashesQueue.add(job, DEFAULT_JOB_OPTS)
   }
 
+  /**
+   * Adds a job to retrieve transactions to the get transactions queue for processing.
+   * @param job The get transactions job data to add to the queue.
+   */
   async addGetTransactionsJob(job: GetTransactionsJobData) {
     await executeByChunks(
       async (chunk: string[]) => await this.getTransactionsQueue.add(
@@ -514,4 +588,32 @@ export class CardanoService {
       TX_LIMIT,
     )
   }
+}
+
+type ParseUtxoProps = {
+  assets: Record<string, ParsedTxAsset>
+  accounts: Record<string, Record<string, number>>
+  utxo: UTxO
+}
+
+type GetBalanceChangesProps = {
+  accountsAfter: Record<string, Record<string, number>>
+  accountsBefore: Record<string, Record<string, number>>
+}
+
+type GetTransfersProps = {
+  assets: Set<string>
+  balanceChanges: Record<string, Record<string, number>>
+  fee: number
+  deposit: number
+  assetsMinted: Asset[] | null
+}
+
+type HandleWithdrawalsProps = {
+  withdrawals: StakeWithdrawal[]
+  balanceChanges: Record<string, Record<string, number>>
+  transfers: Transfer[]
+  utxos: UTxO[]
+  deposit: number
+  fee: number
 }
