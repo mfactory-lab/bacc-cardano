@@ -310,7 +310,7 @@ export class CardanoService {
           decimals: metadata.decimals,
           ticker: metadata.ticker,
           name: metadata.name,
-          logo: `${LOGO_BASE_URL}metadata.logo`,
+          logo: `${LOGO_BASE_URL}${metadata.logo}`,
         }
       }
       /**
