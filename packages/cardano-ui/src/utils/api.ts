@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { KOIOS_API_URL } from '@/config'
-import type { CardanoAsset, CardanoAssetInfo } from '@/interfaces'
+import type { CardanoAsset, CardanoAssetInfo } from '@/types'
 
 export async function getCardanoWalletBalance(address: string, token: string) {
   const { data } = await axios.post(`${KOIOS_API_URL}/address_info`, { _addresses: [address] }, {

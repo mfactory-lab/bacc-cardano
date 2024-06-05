@@ -3,7 +3,7 @@ import { useCardanoApi } from './cardanoApi'
 import { bytesToBase64, generateImgLink, normalizeADA } from '@/utils'
 import { cardanoInfo } from '@/config'
 import adaIcon from '@/assets/img/token/ada.png'
-import type { CardanoAsset, CardanoAssetInfo } from '@/interfaces/api'
+import type { CardanoAsset, CardanoAssetInfo } from '@/types'
 
 export function useCardano() {
   const { getCardanoAssets, getAssetInfo, getCardanoBalance } = useCardanoApi()

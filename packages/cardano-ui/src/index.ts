@@ -1,6 +1,6 @@
 export * from './components'
 export * from './store'
 export * from './config'
-export * from './hook'
+export * from './hooks'
 export * from './utils'
 export * from './types'

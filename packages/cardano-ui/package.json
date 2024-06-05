@@ -9,7 +9,6 @@
   "dependencies": {
     "@bacc/ui": "workspace:^",
     "@emurgo/cardano-serialization-lib-asmjs": "^11.5.0",
-    "cardano-crypto.js": "^6.1.2",
-    "typescript": "^5.3.3"
+    "cardano-crypto.js": "^6.1.2"
   }
 }
