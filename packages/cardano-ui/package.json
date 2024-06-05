@@ -2,8 +2,10 @@
   "name": "@bacc/cardano-ui",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "license": "AGPL-3.0",
-  "main": "./src/index",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
   "dependencies": {
     "@bacc/ui": "workspace:^",
     "@emurgo/cardano-serialization-lib-asmjs": "^11.5.0",
