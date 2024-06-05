@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { INft, NftComponent, NftDialog, generateImageLink } from '@bacc/ui'
-import { cardanoExplorerLink, cardanoMarketplaceLink } from '../utils'
-import { PropType, ref} from 'vue'
+import type { INft } from '@bacc/ui'
+import { NftComponent, NftDialog, generateImageLink, imageError } from '@bacc/ui'
+import type { PropType } from 'vue'
+import { ref } from 'vue'
 import cardanoscanIcon from '../assets/img/marketplace/cardanoscan.png'
 import jspStoreIcon from '../assets/img/marketplace/jpg-store.png'
-import { imageError } from '@bacc/ui'
 import CardanoNftBody from './CardanoNftBody.vue'
+import { cardanoExplorerLink, cardanoMarketplaceLink } from '@/utils'
 
 defineProps({
   nft: {
     type: Object as PropType<INft>,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const dialog = ref(false)
@@ -32,9 +33,9 @@ function generateNFTLink(metadata: { [key: string]: any }) {
 </script>
 
 <template>
-  <nft-component :nft="nft" @handle-modal="dialog = !dialog" :imgLoaded="imgLoaded">
+  <NftComponent :nft="nft" :img-loaded="imgLoaded" @handle-modal="dialog = !dialog">
     <template #icon>
-      <img loading="lazy" @error="imageError" @load="handleImgLoaded" :src="originalImgLink ?? generateNFTLink(nft.metadata)" alt="nft icon" />
+      <img loading="lazy" :src="originalImgLink ?? generateNFTLink(nft.metadata)" alt="nft icon" @error="imageError" @load="handleImgLoaded">
     </template>
 
     <template #name>
@@ -44,16 +45,16 @@ function generateNFTLink(metadata: { [key: string]: any }) {
     </template>
     <template #links>
       <a :href="cardanoExplorerLink(nft?.mint)" target="_blank">
-        <img :src="cardanoscanIcon" alt="solscan icon" />
+        <img :src="cardanoscanIcon" alt="solscan icon">
       </a>
       <a :href="cardanoMarketplaceLink(nft.metadata.policy_id)" target="_blank">
-        <img :src="jspStoreIcon" alt="marketplace icon" /></a>
+        <img :src="jspStoreIcon" alt="marketplace icon"></a>
     </template>
-  </nft-component>
+  </NftComponent>
 
-  <nft-dialog :nft="nft" v-model="dialog">
+  <NftDialog v-model="dialog" :nft="nft">
     <template #body>
-      <cardano-nft-body :nft="nft" />
+      <CardanoNftBody :nft="nft" />
     </template>
-  </nft-dialog>
+  </NftDialog>
 </template>

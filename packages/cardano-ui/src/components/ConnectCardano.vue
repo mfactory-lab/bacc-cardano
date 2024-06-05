@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { CARDANO_WALLETS } from '../config/cardano-wallets'
-import { useCardanoWallet } from '../store/cardanoWalletAdapter'
 import { ConnectWallet } from '@bacc/ui'
 import { onMounted, ref } from 'vue'
+import { CARDANO_WALLETS } from '../config/cardano-wallets'
+import { useCardanoWallet } from '../store/cardanoWalletAdapter'
 import { cardanoInfo } from '../config/blockchain'
 
 const storageWallet = useStorage('cardanoWallet', '')
@@ -21,12 +21,14 @@ function disconnect() {
 
 onMounted(async () => {
   if (storageWallet.value.length !== 0) {
-     walletData.value = await cardanoWallet.initCardanoWallet(storageWallet.value)
+    walletData.value = await cardanoWallet.initCardanoWallet(storageWallet.value)
   }
 })
 </script>
 
 <template>
-  <connect-wallet :blockchain="cardanoInfo" :wallets="CARDANO_WALLETS" :wallet-data="walletData" @select="select"
-    @disconnect="disconnect" />
+  <ConnectWallet
+    :blockchain="cardanoInfo" :wallets="CARDANO_WALLETS" :wallet-data="walletData" @select="select"
+    @disconnect="disconnect"
+  />
 </template>

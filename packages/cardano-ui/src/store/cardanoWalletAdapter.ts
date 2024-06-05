@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { Address, BaseAddress, RewardAddress } from '@emurgo/cardano-serialization-lib-asmjs/cardano_serialization_lib.js'
-import { CARDANO_WALLETS } from '../config/cardano-wallets'
 import type { IWalletData } from '@bacc/core'
 import { useStorage } from '@vueuse/core'
+import { CARDANO_WALLETS } from '@/config'
 
 export const useCardanoWallet = defineStore('cardano-adapter-store', () => {
   const storageWallet = useStorage('cardanoWallet', '')
@@ -64,7 +64,7 @@ export const useCardanoWallet = defineStore('cardano-adapter-store', () => {
   async function signMessage(wallet: { signData: Function }, message = '') {
     const [_changeAddress, changeAddrHex, changeAddrBech32] = await getChangeAddress(wallet)
     const messageUtf = `account: ${changeAddrBech32}${message ? `; ${message}` : ''}`
-    const messageHex = Buffer.from(messageUtf).toString("hex")
+    const messageHex = Buffer.from(messageUtf).toString('hex')
     return await wallet.signData(changeAddrHex, messageHex)
   }
 

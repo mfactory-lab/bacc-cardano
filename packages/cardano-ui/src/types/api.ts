@@ -1,4 +1,4 @@
-export interface CardanoAsset {
+export type CardanoAsset = {
   address: string
   policy_id: string
   asset_name: string | null
@@ -7,7 +7,7 @@ export interface CardanoAsset {
   quantity: string
 }
 
-export interface CardanoAssetInfo {
+export type CardanoAssetInfo = {
   policy_id: string
   asset_name: string | null
   asset_name_ascii: string
@@ -17,7 +17,7 @@ export interface CardanoAssetInfo {
   mint_cnt: number
   burn_cnt: number
   creation_time: number
-  minting_tx_metadata: {[key:string]: any} | null
-  token_registry_metadata: {[key:string]: any} | null
-  cip68_metadata: {[key:string]: any} | null
+  minting_tx_metadata: { [key: string]: any } | null
+  token_registry_metadata: { [key: string]: any } | null
+  cip68_metadata: { [key: string]: any } | null
 }

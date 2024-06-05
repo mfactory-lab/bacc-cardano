@@ -1,4 +1,4 @@
-import { UNITS_PER_ADA } from '../config'
+import { UNITS_PER_ADA } from '@/config'
 
 export function normalizeADA(amount: number, decimals?: number) {
   const multiplier = decimals ? 10 ** decimals : UNITS_PER_ADA
@@ -10,5 +10,5 @@ export function prepareAssets(asset: { [key: string]: any }): string[] {
 }
 
 export function bytesToBase64(bytes: string) {
-  return "data:image/png;base64," + bytes
+  return `data:image/png;base64,${bytes}`
 }

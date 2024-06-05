@@ -1,6 +1,5 @@
-import { CardanoAsset, CardanoAssetInfo } from "@/interfaces/api"
-import { getCadranoAssetInfo, getCadranoWalletAssets, getCardanoWalletBalance } from "../utils"
-import { prepareAssets } from '../utils'
+import { getCadranoAssetInfo, getCadranoWalletAssets, getCardanoWalletBalance, prepareAssets } from '@/utils'
+import type { CardanoAsset, CardanoAssetInfo } from '@/types'
 
 export function useCardanoApi() {
   const getCardanoBalance = async (addr: string, token: string) => {
@@ -36,6 +35,6 @@ export function useCardanoApi() {
   return {
     getCardanoBalance,
     getCardanoAssets,
-    getAssetInfo
+    getAssetInfo,
   }
 }

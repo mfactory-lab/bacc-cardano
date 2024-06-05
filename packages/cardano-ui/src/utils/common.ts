@@ -7,7 +7,7 @@ export function generateImgLink(link: string | string[]) {
 }
 
 export function normalizeIpfsLink(link: string) {
-  return 'https://ipfs.io/ipfs/' + String(link).replace('ipfs://', '')
+  return `https://ipfs.io/ipfs/${String(link).replace('ipfs://', '')}`
 }
 
 export function cardanoExplorerLink(mint: string, direction = 'token') {

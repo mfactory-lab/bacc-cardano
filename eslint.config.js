@@ -6,6 +6,7 @@ module.exports = antfu({
   typescript: true,
   yaml: true,
   toml: true,
+  vue: true,
   markdown: true,
   rules: {
     'antfu/consistent-list-newline': 'off',

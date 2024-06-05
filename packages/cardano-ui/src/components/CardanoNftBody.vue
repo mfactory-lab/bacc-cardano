@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { INft } from '@bacc/ui';
-import { PropType, computed } from 'vue';
+import type { INft } from '@bacc/ui'
+import type { PropType } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   nft: {
     type: Object as PropType<INft>,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const ignoredKeys = {
@@ -14,7 +15,7 @@ const ignoredKeys = {
   image: true,
   policy_id: true,
   symbol: true,
-  isNft: true
+  isNft: true,
 }
 
 const metadata = computed(() => props.nft.metadata)
@@ -29,13 +30,12 @@ const nftData = computed(() => {
     }
     res.push({
       label: key,
-      value: data
+      value: data,
     })
   }
 
   return res
 })
-
 </script>
 
 <template>
@@ -46,7 +46,8 @@ const nftData = computed(() => {
     {{ $t('portfolio.dialog.nftInfo') }}:
     <ul>
       <li v-for="data in nftData" :key="data.label">
-        {{ data.label }}: <span>{{ data.value }}</span></li>
+        {{ data.label }}: <span>{{ data.value }}</span>
+      </li>
     </ul>
   </div>
 </template>
