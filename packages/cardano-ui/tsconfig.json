@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "esnext",
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "vite/client",
+      "vite-plugin-pages/client",
+      "vite-plugin-vue-layouts/client",
+      "unplugin-icons/types/vue"
+    ],
+    "paths": {
+      "@/*": ["src/*"],
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "types/**/*.ts",
+    "vite.config.ts",
+    "cypress.config.ts",
+    "packages/cardano/config/cardano-wallets.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "cypress",
+    "**/*.js",
+    "src/utils/connection.ts"
+  ]
+}
